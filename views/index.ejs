@@ -6,7 +6,7 @@
   <input type="hidden" name="page" value="1">
   
   <div class="form-group">
-    <input type="checkbox" id="checkString" onclick="myFunction1()" name="checkString"/>
+    <input type="checkbox" id="checkString" onclick="myFunction1()" <%= stringdata ? ' checked' : '' %> />
     <label class="control-label col-sm-2" for="string">String :</label>
     <div class="col-sm-4">
       <input
@@ -15,12 +15,12 @@
         id="string"
         name="string"
         placeholder="Enter String ..."
-        
+        value="<%= stringdata %>" <%= stringdata ? '' : ' disabled' %>
       />
     </div>
   </div>
   <div class="form-group">
-    <input type="checkbox" id="checkAngka" onclick="myFunction2()" >
+    <input type="checkbox" id="checkAngka" onclick="myFunction2()" <%= integerdata ? ' checked' : '' %>>
     <label class="control-label col-sm-2" for="integer">Integer :</label>
     <div class="col-sm-4">
       <input
@@ -29,26 +29,27 @@
         id="integer"
         name="integer"
         placeholder="Enter Integer..."
-        
+        value="<%= integerdata %>" <%= integerdata ? '' : ' disabled' %>
       />
     </div>
   </div>
   <div class="form-group">
-    <input type="checkbox" id="checkDesimal" onclick="myFunction3()" >
+    <input type="checkbox" id="checkDesimal" onclick="myFunction3()" <%= floatdata ? ' checked' : '' %>>
     <label class="control-label col-sm-2" for="float">Float :</label>
     <div class="col-sm-4">
       <input
+      step="0.01"
         type="number"
         class="form-control"
         id="float"
         name="float"
         placeholder="Enter Float..."
-        
+        value="<%= floatdata %>" <%= floatdata ? '' : ' disabled' %>
       />
     </div>
   </div>
   <div class="form-group">
-    <input type="checkbox" id="checkDate" onclick="myFunction4()" >
+    <input type="checkbox" id="checkDate" onclick="myFunction4()" <%= start ? 'checked' : '' %>>
     <label class="control-label col-sm-2">Date :</label>
     <div class="col-sm-2">
       <input
@@ -56,25 +57,25 @@
         class="form-control"
         id="start"
         name="start"
-        
+        value="<%= start %>" <%= start ? '' : ' disabled' %>
       /> to
       <input
         type="date"
         class="form-control"
         id="end"
         name="end"
-        
+        value="<%= end %>" <%= end ? '' : ' disabled' %>
       />
     </div>
   </div>
   <div class="form-group">
-    <input type="checkbox" id="checkBoolean" onclick="myFunction5()" >
+    <input type="checkbox" id="checkBoolean" onclick="myFunction5()" <%= booleandata ? 'checked' : '' %>>
     <label for="boolean" class="control-label col-sm-2">Boolean :</label>
     <div class="col-sm-2">
-      <select name="boolean" id="boolean" class="form-select col-sm-2">
+      <select name="boolean" id="boolean" class="form-select col-sm-2" <%= booleandata ? '' : ' disabled' %>>
         <option value="">Choose your boolean ...</option>
-        <option value="true">True</option>
-        <option value="false" >False</option>
+        <option value="true"<%= booleandata == 'true' ? ' selected' : '' %>>True</option>
+        <option value="false"<%= booleandata == 'false' ? ' selected' : '' %>>False</option>
       </select>
     </div>
   </div>
@@ -89,7 +90,7 @@
 
 <table class="table table-striped">
   <tr>
-    <th>Id</th>
+    <th>No</th>
     <th>String</th>
     <th>Integer</th>
     <th>Float</th>
@@ -114,10 +115,15 @@
 </table>
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
-    
+    <li class="page-item <%= page > 1 ? '' : 'disabled' %> ">
+      <a class="page-link" href="<%= url.replace(`page=${page}`, `page=${page - 1}`)%>">Previous</a>
+    </li>
     <% for(let i = 1; i <= jumlahHalaman; i++){ %> 
-    <li class="page-item"><a class="page-link" href="/?page=<%= i %> "><%= i %> </a></li>
+    <li class="page-item <%= page == i ? 'active' : '' %> "><a class="page-link" href="<%= url.replace(`page=${page}`, `page=${i}`) %>"><%= i %> </a></li>
     <% } %> 
+    <li class="page-item <%= page < jumlahHalaman ? '' : 'disabled' %> ">
+      <a class="page-link" href="<%= url.replace(`page=${page}`, `page=${page + 1}`)%>">Next</a>
+    </li>
   </ul>
 </nav>
 
